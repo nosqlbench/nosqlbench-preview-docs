@@ -6,7 +6,7 @@ on:
 #      - "site/**"
 
 jobs:
-  deploy preview docsite:
+  deploy-preview-docsite:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/master'
 
