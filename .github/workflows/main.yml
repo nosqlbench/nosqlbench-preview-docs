@@ -2,8 +2,8 @@ on:
   push:
     branches:
       - main 
-    paths:
-      - "site/**"
+#    paths:
+#      - "site/**"
 
 jobs:
   deploy preview docsite:
