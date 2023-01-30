@@ -6,7 +6,7 @@ on:
 #      - "site/**"
 
 jobs:
-  deploy-preview-docsite:
+  import-generated:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/master'
 
