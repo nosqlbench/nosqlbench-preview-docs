@@ -37,6 +37,9 @@ jobs:
           cd nosqlbench-preview-docs
           ./doimport.sh
 
+      - name: "trust owned submodule"
+        run: |
+          git config --global --add safe.directory /github/workspace/site/themes/abridge_modified
       - name: "commit imported changes"
         env:
           NBDROID_NAME: ${{ secrets.NBDROID_NAME }}
