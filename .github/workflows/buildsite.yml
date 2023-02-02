@@ -1,9 +1,9 @@
+name: buildsite
+
 on:
   push:
     branches:
       - main 
-#    paths:
-#      - "site/**"
 
 jobs:
   import-generated:
