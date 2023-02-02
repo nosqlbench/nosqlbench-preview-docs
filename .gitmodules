@@ -1,3 +1,0 @@
-[submodule "site/themes/abridge_modified"]
-    path = site/themes/abridge_modified
-    url = git@github.com:nosqlbench/abridge_zola_theme.git
