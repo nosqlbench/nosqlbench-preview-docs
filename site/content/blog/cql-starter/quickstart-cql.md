@@ -1,20 +1,17 @@
 +++
-title="NB5 QuickByte CQL Starter"
-date = 2023-02-17
-year = "2023"
-author = "Jeff Banks"
-template = "blogpost.html"
+title = "CQL Starter"
+
 [extra]
-toc=true
-recent=true
-authors=["Jeff Banks"]
-[taxonomies]
-authors=["Jeff Banks"]
+author = "Jeff Banks"
+published_dt = 2023-03-28
+thumb = "/blog/cql-starter/cqlstarter-blog-dbs-cql.jpg"
+description = "Learning CQL with a cql-starter."
 +++
 
-# NoSQLBench - CQL-Starter
-
-{{ img(src="/blog/start_here.png" alt="Start Here" w=300 h=200) }}
+# CQL-Starter
+<img width="768" height="461" title="cql" border=3 alt="cql-starter" src="cqlstarter-blog-studio-cql.png">
+<p>Author: Jeff Banks (DataStax)</p>
+<p>&nbsp;</p>
 
 ## Introduction
 
@@ -24,7 +21,7 @@ available in version 5 of NoSQLBench.
 
 * If you haven't heard of NoSQLBench, checkout our [introduction material](@/introduction/_index.md)
 * If you already have a foundation with NoSQLBench and would like to understand what's included 
-  in the most recent version, checkout the [release notes](@/release-notes/_index.md).
+  in the most recent version, checkout the [release notes](https://github.com/nosqlbench/nosqlbench/releases/latest).
 
 This session illustrates use of CQL, using NoSQLBench v5, along with a Docker deployment of 
  Apache Cassandra 4.1 using its latest image.
@@ -36,34 +33,35 @@ Let’s get rolling …
 This session was tested with:
 
 * Ubuntu (v20.4)
-* Docker(v20.10.18)
+* Docker (v20.10.18)
 * NoSQLBench (v5.17.2)
 * Apache Cassandra (v4.1)
 
-### 01 Docker
 
-Ensure Docker is installed on your operation system. You can download it from
-[https://www.docker.com/](https://www.docker.com/)
+#### Install Docker
 
-### 02 Get NB5
+Ensure Docker is installed on your operating system. You can download it from
+[here](https://www.docker.com/)
+
+#### Get NB5
 
 Obtain official NB5 release, if you don't already have it, from
-[latest nb5 release](https://github.com/nosqlbench/nosqlbench/releases/latest/download/nb5),
+[latest nb5 release](https://github.com/nosqlbench/nosqlbench/releases/latest),
 and then `chmod +x nb5`.
 
 See [get nosqlbench](getting-started/00-get-nosqlbench.md) for other download options.
 
 You should be able to see your version installed using:
 
-```shell
+```
 ./nb5 --version
 ```
 
-### 03 Cassandra
+#### Run Cassandra
 
 Run the latest Cassandra 4.* docker.
 
-```shell
+```
 docker run --name cass4 -p 9042:9042 -d cassandra
 ```
 
@@ -73,27 +71,31 @@ If you have issues, more details can be found at
 
 Verify Cassandra is started from logs:
 
-```shell
-docker container logs <your-container-id>
+```
+docker container logs cass4
 ```
 
 # Running the scenario
 
 Now, we are ready to run the cql-starter NoSQLBench scenario.
 
-1. Navigate via your local command line to where the nb5 binary was previously downloaded.
-2. Ensure that issuing the following command identifies the workload used for this session.
+#### Locate NB5 
+Navigate via your local command line to where the nb5 binary was previously downloaded.
 
-```shell
+#### Verify 
+Ensure that issuing the following command identifies the workload used for this session.
+
+```
 ./nb5 --list-workloads | grep cql-starter
 ```
 
 Example output:
 
-```shell
+``` 
 /activities/baselines/cql-starter.yaml
 ```
 
+#### Optional step
 An alternative is to copy the workload configuration listed below to your own local file in a 
 folder of your choosing. You can name it whatever you like, as you will specify the absolute 
 file path directly when issuing the scenario command.
@@ -108,8 +110,9 @@ your configuration is constructed properly.  When customizing these for real-wor
 values can be set to millions or more!  That is where the full power of NoSQLBench shines to 
 generate critical metrics for analysis to make a system more robust.
 
-```yaml,linenos
-description: |
+```yaml
+
+description: >2
  A cql-starter workload.
  * Cassandra: 3.x, 4.x.
  * DataStax Enterprise: 6.8.x.
@@ -136,7 +139,7 @@ bindings:
  time: ElapsedNanoTime(); Mul(1000); ToJavaInstant();
  ts: ElapsedNanoTime(); Mul(1000);
 
-blocks:
+blocks: 
  schema:
    params:
      prepared: false
@@ -210,12 +213,11 @@ Starting from the top of the workload template, the primary sections include:
 * Params - Optional parameters of interest to reference for applying values.
 * Bindings - Named recipes for generated data.  These are referenced in block operations.
 * Blocks - Where the labeled operations reside (e.g. schema, rampup, and main).
-    * Schema - A block section where the schema is actually defined and created.
-    * Rampup - A block section for data setup that becomes the backdrop for testing; it’s the density of data outside the metrics collected in the main block.
-    * Main - A block section that is the target of metrics collection activities.
+  * Schema - A block section where the schema is actually defined and created.
+  * Rampup - A block section for data setup that becomes the backdrop for testing; it’s the density of data outside the metrics collected in the main block.
+  * Main - A block section that is the target of metrics collection activities.
 
-This may look overwhelming at first glance, but the magic of what can be done for load testing 
- target resources becomes more apparent as settings are tweaked for various test cases.
+This may look overwhelming at first glance, but the magic of what can be done for load testing target resources becomes more apparent as settings are tweaked for various test cases.
 
 ### Basic Operations
 
@@ -225,18 +227,18 @@ NoSQLBench and Cassandra using basic, direct CQL.
 
 ### Table and Keyspace
 
-For the default scenario, a simple table named ‘cqlstarter’ will be created with a keyspace 
+For the default scenario workload, a simple table named ‘cqlstarter’ will be created with a keyspace 
  named ‘starter’.  There will be three fields for our table:
 
-* machine_id
-* message
-* time
+  * machine_id
+  * message
+  * time
 
 The machine_id is a unique identifier type, the message field is a text type, and the time is a 
  timestamp type.
 
 Since the example is designed to be run locally, the Cassandra keyspace replication is defined 
- using a SimpleStrategy with a replication factor of 1.
+ using a SimpleStrategy with a replication factor of one.
 
 ```
 WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '<<rf:1>>'}
@@ -246,7 +248,8 @@ WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '<<rf:1>>'}
 
 For this session, the ‘default’ scenario is being used.
 
-```
+```yaml
+    
     scenarios:
       default:
         schema: run driver=cql tags==block:schema …
@@ -256,14 +259,14 @@ For this session, the ‘default’ scenario is being used.
 
 
 One may notice there is an ‘astra’ scenario included in the file with its own set of activities 
-defined (e.g. ‘-astra’).  References to ‘astra’ are simply there to show how additional 
+defined (e.g. `-astra`).  References to `astra` are simply there to show how additional 
 scenarios can be defined in a single workload file.
 
 
-```
-astra:
- 	  schema: run driver=cql tags==block:schema-astra threads==1 cycles==UNDEF
-	  …
+```yaml
+    
+    astra:
+      schema: run driver=cql tags==block:schema-astra threads==1 cycles==UNDEF      
 ```
 
 This illustrates how flexible and customizable the workload file can become.  The words are 
@@ -276,13 +279,15 @@ Basic examples are included in the cql-starter, but this illustrates how binding
 values to be used by operations.  Again, these are basic, just to illustrate how binding 
 functions can be utilized.
 
-```
+```yaml
+
+    
     bindings:
-     machine_id: ElapsedNanoTime(); ToHashedUUID() -> java.util.UUID
-     message: Discard(); TextOfFile('data/cql-starter-message.txt');
-     rampup_message: ToString();
-     time: ElapsedNanoTime(); Mul(1000); ToJavaInstant();
-     ts: ElapsedNanoTime(); Mul(1000);
+      machine_id: ElapsedNanoTime(); ToHashedUUID() -> java.util.UUID
+      message: Discard(); TextOfFile('data/cql-starter-message.txt');
+      rampup_message: ToString();
+      time: ElapsedNanoTime(); Mul(1000); ToJavaInstant();
+      ts: ElapsedNanoTime(); Mul(1000);
 ```
 
 Notice how we can reference text from a file to be used for our message value.  Nothing fancy, 
@@ -296,28 +301,28 @@ Discard(); TextOfFile('data/cql-starter-message.txt')
 
 Note: The Discard() function is used to indicate a no-op as the initial message value.  This 
 may change in the future, but for now it is a necessity due to the nature of bindings 
-defaulting to Long values.  This is why the rampup_message was included and it uses a
-`ToString();`  as a binding value.  By default the value is 0L.
+defaulting to Long values.  This is why the `rampup_message` was included for illustration as it uses a
+`ToString();` function assigning a string value.  By default, the binding's value is 0L.
 
-## Running a workload
+## Hands on
 
 Let’s run the cql-starter.
 
-1. Using the nb5 binary, issue the following command
+#### Running
 
-```shell
+Using the nb5 binary, issue the following command
+
+```
 ./nb5 activities/baselines/cql-starter.yaml default hosts=localhost localdc=datacenter1
 ```
  
-This command identifies that the default setting is used with the key-value args passed along 
+This command identifies that the default scenario workload is used with the key-value args passed along 
 for use by the cqld4 adapter.
 
-### Examine the results
+#### Examine the results
+After the workload has been run, let’s take a look at the results from Cassandra itself using cqlsh.
 
-After the workload has been run, let’s take a look at the results from Cassandra itself using 
- cqlsh.
-
-```shell
+```
 docker container exec -it cass4 sh
 cqlsh
 select * from starter.cqlstarter;
@@ -325,30 +330,35 @@ select * from starter.cqlstarter;
 
 You should see the single rampup entry along main operation entries in the Cassandra table.
 
-![alt_text](images/image2.png "image_tooltip")
 
-### Customize
+#### Customize
 
 Now, let’s customize the cql-starter to make it a bit more your own.
 
-1. Save the .yaml file to your local environment.
-2. Edit the file and uncomment under the default scenario the following entry:
+#### Save the .yaml file to your local environment.
+One easy way, is to utilize the nb5 --copy command.
+```
+./nb5 --copy cql-starter
+```
+This provides a fresh workload file for you for cql-starter.
 
+
+Edit the file and uncomment under the default scenario the following entry:
 
 ```
-   # rampdown: run driver=cql tags==block:rampdown threads==1 cycles==UNDEF
+# rampdown: run driver=cql tags==block:rampdown threads==1 cycles==UNDEF
 ```
 
-When you want to customize the cql-starter, you can simply target the file it outside of the 
+When you want to customize the cql-starter, you can simply target the file outside the 
  NB5 distribution using:
 
-```shell
+```
 ./nb5 adapter-cqld4/<rel-path-to-customized-file>.yaml default hosts=localhost localdc=datacenter1
 ```
 
-Also, if you would like to see more details in the output add (-v, -vv, or -vvv) to the command.
+Also, if you would like to see more details in the output, add (-v, -vv, or -vvv) to the command.
 
-```shell
+```
 ./nb5 adapter-cqld4/<rel-path-to-customized-file>.yaml default hosts=localhost localdc=datacenter1 -v
 ```
 

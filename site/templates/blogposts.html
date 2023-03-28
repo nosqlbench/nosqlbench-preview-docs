@@ -2,29 +2,36 @@
 {%- block seo %}
   {{- super() }}
   {%- set title = "Posts" %}
-
   {%- if config.title %}
     {%- set title_addition = title_separator ~ config.title %}
   {%- else %}
     {%- set title_addition = "" %}
   {%- endif %}
-
   {%- set description = config.description %}
-
   {{- macros_head::seo(config=config, title=title, title_addition=title_addition, description=description, is_home=true) }}
 {%- endblock seo %}
 
 {%- block content %}
 {%- set section_item = get_section(path="blog/_index.md") %}
     <div>
-      {%- for year, posts in section_item.pages | group_by(attribute="year") %}
-        <h2>{{ year }}</h2>
-          {%- for post in posts -%}
-            {%- if post is defined -%}
-              <p><a href="{{ post.permalink | safe() }}">{{ post.title }}</a> - <time datetime="{{ post.date }}">{{ post.date | date(format="%F") }}</time>
-              {%- if post.author is defined -%} by {{ post.author }}{%- endif -%}</p>
+        {%- for ps in section_item.subsections %}
+            {%- if ps is defined -%}
+                {%- set si = get_section(path=ps) %}
+                {%- if si.pages -%}
+                    {%- set sip = si.pages[0] -%}
+
+                        {%- if sip is defined -%}
+                            <p>&nbsp;</p>
+                            <p><a href="{{ si.permalink | safe() }}"><img border="2" width="110" height="95" alt="blog-image-not-provided" src={{ sip.extra.thumb }}></a>&nbsp;</p>
+                            <p><a href="{{ si.permalink | safe() }}"> {{ si.title }}</a></p>
+                            <p><b>Description:</b> {{  sip.extra.description }}</p>
+                            <p><b>Author:</b> {{ sip.extra.author }} </p>
+                            <p><b>Published:</b> {{ sip.extra.published_dt }} </p>
+                            <p>&nbsp;</p>
+                        {%- endif -%}
+
+                {%- endif -%}
             {%- endif -%}
         {%- endfor %}
-      {%- endfor %}
     </div>
 {%- endblock content %}

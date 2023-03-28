@@ -13,7 +13,7 @@ feed_filename = "atom.xml"
 taxonomies = [
     {name = "categories", feed = true},
     {name = "tags", feed = true},
-    {name = "authors", feed = false}
+    {name = "authors", feed = true}
 ]
 
 theme = "abridge_custom"
@@ -30,7 +30,7 @@ include_content = true      # include rendered content of page/section in index
 highlight_code = true
 highlight_theme = "css"
 
-render_emoji = false
+render_emoji = true
 external_links_target_blank = true # rel="noopener"
 external_links_no_follow = false   # rel="nofollow"
 external_links_no_referrer = false # rel="noreferrer"
@@ -61,7 +61,7 @@ footer_credit_override = ''
 #footer_credit_override='<p class="s90">Powered by <a href="https://www.getzola.org/" target="_blank">Zola</a> &#38; <a href="https://github.com/Jieiku/abridge/" target="_blank">Abridge</a></p>'
 
 #uncomment one of the two lines, or neither, depending on which type of logo you want to use:
-logo = { file="nb5logo.png", width="32", height="32", alt="NoSQLBench5 (preview)", text="NoSQLBench v5 (PREVIEW)"}
+logo = { file="nb5logo.png", width="32", height="32", alt="NoSQLBench5 (preview)", text=" NoSQLBench v5 (PREVIEW)"}
 #logo = { file="engine.svg", width="64", height="64", alt="NoSQLBench5", text="NoSQLBench"}
 #logo = { file="nb5.png", width=32, height="32", alt="NoSQLBench5", text="NoSQLBench"}
 #logo = { file="logo.svg", width="32", height="32", alt="Abridge", text="bridge" }
@@ -75,7 +75,7 @@ headhr = true # show or hide horizontal rule below header
 foothr = true # show or hide horizontal rule above footer
 
 menu = [
-#    {url = "/blog/", name = "Blog", slash = true, blank = false},
+    {url = "/blog/", name = "Blog", slash = true, blank = false},
     {url = "/getting-started/", name = "Getting Started", slash = true, blank = false},
     {url = "/release-notes/", name = "Release Notes", slash = true, blank = false},
 #    {url = "http://nosqlbench.io/", icon = "ICON", slash=true, blank=true }
