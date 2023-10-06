@@ -1,9 +1,9 @@
 ---
-title: "CLI Options"
+title: "Command Line Options"
 weight: 10
 ---
 
-### Command-Line Options ###
+### The NoSQLBench CLI ###
 
 Help (You're looking at it.)
 
@@ -189,16 +189,6 @@ a logfile will be created for this name.
 
     --session-name <name>
 
-Enlist nosqlbench to stand up your metrics infrastructure using a local docker runtime:
-
-    --docker-metrics
-
-When this option is set, nosqlbench will start graphite, prometheus, and grafana automatically on
-your local docker, configure them to work together, and point nosqlbench to send metrics the system
-automatically. It also imports a base dashboard for nosqlbench and configures grafana snapshot
-export to share with a central DataStax grafana instance (grafana can be found on localhost:3000
-with the default credentials admin/admin).
-
 ### Console Options ###
 
 Increase console logging levels: (Default console logging level is *warning*)
@@ -215,6 +205,14 @@ to the scenario log, stored by default in logs/...
 Show version, long form, with artifact coordinates.
 
     --version
+
+The logged metrics reporting to console at INFO level is often problematic. This can be explicitly
+enabled or disabled:
+
+    # the current default, soon to be deprecated
+    --enable-logged-metrics 
+    # use this if you need to stop being spammed by a high-frequency reporting interval
+    --disable-logged-metrics
 
 ### Summary Reporting
 
@@ -244,4 +242,29 @@ squelched. Metrics for short runs are not generally accurate nor meaningful. Spa
 with boilerplate in such cases is undesirable. If the minimum session length is not specified, it
 is assumed to be 0, meaning that a report will always show on that channel.
 
+## Labeling Options
 
+For an in-depth introduction to descriptive metadata support in NoSQLBench, see the
+[Labeling and Tagging](@/user-guide/advanced-topics/labeling_and_tagging.md) section.
+
+You can add labels and their values to a NoSQLBench session:
+
+    # all at once
+    --add-labels "label1:value1,label2:value2"
+    
+    # incrementally
+    --add-labels "label1:value1" --add-labels "label2:value2"
+
+All such labels must have names and values which are compatible with metrics systems, which 
+means the initial character must be alphabetic, and all subsequent characters must be 
+alphanumeric or underscores. 
+
+You can establish labeling specification (standard forms) for metrics and annotations with:
+
+    # set both --annotate-labelspec and --metrics-labelspec
+    --labelspec "+instance,+session,+specialcircumstancelabel"
+    # set different labelspecs for metrics and annotation:
+    --metrics-labelspec "+instance,+session" --annotate-labelspec "+instance,+session,+region"
+
+These can serve as a safety against sending invalid label data to a downstream system and polluting
+the namespace of all results.

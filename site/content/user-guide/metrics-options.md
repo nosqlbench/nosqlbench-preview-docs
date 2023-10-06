@@ -18,13 +18,30 @@ Metrics from a scenario run can be gathered in multiple ways:
 - In HDR histogram logs
 - In Histogram Stats logs (CSV)
 - To a monitoring system via graphite
-- via the `--docker-metrics` option
-- remotely via the `--docker-metrics-at <host>` option
 
-When `--docker-metrics` or `--docker-metrics-at <host>` methods are used, they take over the global
-options for the other methods. Except these, the others may generally be combined and used in
+These command line options may generally be combined and used in
 combination. The command line options for enabling these are documented in the command line docs,
 although some examples of these may be found below.
+
+## Metrics via HTTP push
+
+You can have your metrics pushed up to a metrics store via HTTP push method and the
+[OpenMetrics Exposition](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md)
+format.
+
+    --report-prompush-to "<push gateway URL>"
+
+When used with a receiving system like
+[VictoriaMetrics API](https://docs.victoriametrics.com/url-examples.html#apiv1importprometheus),
+data is sent directly from NoSQLBench at the time of reporting directly to the downstream collector.
+This is a preferred method because it puts episodic (session-oriented) data into a near-synchronous 
+alignment with respect to client behavior and dashboard visibility.
+
+However, when used with the original
+[Prometheus pushgateway](https://github.com/prometheus/pushgateway), 
+the dataflow is still subject to a secondary polling time base as well as the requirement to set 
+up the gateway as a polling target. This takes substantial control out of the hands of the 
+testing system in terms of timeliness, timing resolution, ephemeral fixtures, and so on.
 
 ## Metrics via Graphite
 
