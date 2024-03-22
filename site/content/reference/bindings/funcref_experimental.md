@@ -1,6 +1,6 @@
 ---
-title: DNN_angular1_neighbors
 weight: 154485593
+title: DNN_angular1_neighbors
 ---
 ## DNN_angular1_neighbors
 
@@ -11,21 +11,9 @@ Compute the indices of the neighbors of a given v using DNN mapping. To avoid am
     The size of neighborhood
 @param N
     The number of total vectors, necessary for boundary conditions of defined vector
-@param module
+@param modulus
     The modulus used during training of angular1 data; this corresponds to how periodically we cycle back
     to vectors with the same angle (hence have angular distance zero between them)
-
-
-## DNN_angular1_v
-
-
-- `long -> DNN_angular1_v(int: D, long: N, long: M) -> float[]`
-  - *notes:* @param D
-    Dimensions in each vector
-@param N
-    The number of vectors in the training set
-@param M
-    The modulo which is used to construct equivalence classes
 
 
 ## DNN_euclidean_neighbors
@@ -61,17 +49,29 @@ This represents an enumerated population of vectors of some dimension, where any
 
 - `long -> DNN_euclidean_v_wrap(int: D, long: N) -> float[]`
 
+## DnnAngular1V
+
+
+- `long -> DnnAngular1V(int: D, long: N, long: M) -> float[]`
+  - *notes:* @param D
+    Dimensions in each vector
+@param N
+    The number of vectors in the training set
+@param M
+    The modulo which is used to construct equivalence classes
+
+
 ## DoubleArrayCache
 
 Precompute the interior double\[\] values to use as a LUT.
 
-- `long -> DoubleArrayCache(io.nosqlbench.virtdata.library.basics.shared.vectors.primitive.VectorSequence: function) -> double[]`
+- `long -> DoubleArrayCache(io.nosqlbench.virtdata.lib.vectors.primitive.VectorSequence: function) -> double[]`
 
 ## DoubleCache
 
 Precompute the interior double\[\] values to use as a LUT.
 
-- `long -> DoubleCache(io.nosqlbench.virtdata.library.basics.shared.vectors.primitive.DoubleSequence: sequence) -> double`
+- `long -> DoubleCache(io.nosqlbench.virtdata.lib.vectors.primitive.DoubleSequence: sequence) -> double`
 
 ## DoubleVectorPadLeft
 
@@ -176,19 +176,6 @@ Construct an arbitrarily large float vector with hashes. The initial value is as
 
 - `long -> HashedFloatVectors(Object: sizer) -> float[]`
 
-## HdfDatasetToCqlPredicates
-
-Binding function that accepts a long input value for the cycle and returns a string consisting of the CQL predicate parsed from a single record in an HDF5 dataset
-
-- `long -> HdfDatasetToCqlPredicates(String: filename, String: datasetname, String: parsername) -> String`
-  - *notes:* Create a new binding function that accepts a long input value for the cycle and returns a string
-@param filename
-@param datasetname
-@param parsername
-
-
-- `long -> HdfDatasetToCqlPredicates(String: filename, String: datasetname) -> String`
-
 ## HdfDatasetToString
 
 This function reads a vector dataset from an HDF5 file. The entire dataset is parsed into a single String Object with the discreet values separated by the user supplied separator character. It is intended for use only with small datasets where the entire dataset can be read into memory and there is no need to read individual vectors from the dataset. The lambda function simply returns the String representation of the dataset.
@@ -269,12 +256,6 @@ This implementation is specific to returning a List of Longs
 
 - `long -> HdfFileToLongList(String: filename, String: datasetName) -> List<Long>`
 
-## NormalizeCqlVector
-
-Normalize a vector in List form, calling the appropriate conversion function depending on the component (Class) type of the incoming List values.
-
-- `com.datastax.oss.driver.api.core.data.CqlVector -> NormalizeCqlVector() -> com.datastax.oss.driver.api.core.data.CqlVector`
-
 ## NormalizeDoubleListVector
 
 Normalize a vector.
@@ -314,43 +295,10 @@ Repeat the incoming list into a new list, filling it to the given size.
   - *example:* `RepeatList(50)`
   - *repeat the incoming values into a new List of size 50*
 
-## ToCqlVector
-
-
-- `double[] -> ToCqlVector() -> com.datastax.oss.driver.api.core.data.CqlVector`
-
-- `float[] -> ToCqlVector() -> com.datastax.oss.driver.api.core.data.CqlVector`
-
-- `List -> ToCqlVector() -> com.datastax.oss.driver.api.core.data.CqlVector`
-
 ## ToFloatVector
 
 
 - `double[] -> ToFloatVector() -> float[]`
-
-## TokenMapFileCycle
-
-Utility function used for advanced data generation experiments.
-
-- `int -> TokenMapFileCycle(String: filename, boolean: loopdata, boolean: ascending) -> long`
-
-## TokenMapFileNextCycle
-
-Utility function used for advanced data generation experiments.
-
-- `int -> TokenMapFileNextCycle(String: filename, boolean: loopdata, boolean: ascending) -> long`
-
-## TokenMapFileNextToken
-
-Utility function used for advanced data generation experiments.
-
-- `int -> TokenMapFileNextToken(String: filename, boolean: loopdata, boolean: ascending) -> long`
-
-## TokenMapFileToken
-
-Utility function used for advanced data generation experiments.
-
-- `int -> TokenMapFileToken(String: filename, boolean: loopdata, boolean: ascending) -> long`
 
 ## TriangularStep
 
