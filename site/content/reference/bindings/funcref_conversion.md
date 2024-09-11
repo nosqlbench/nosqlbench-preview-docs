@@ -24,6 +24,11 @@ Convert the contents of the input ByteBuffer to a String as hexadecimal. This fu
 
 - `java.nio.ByteBuffer -> ByteBufferToHex() -> String`
 
+## CSVToCqlFloatVector
+
+
+- `String -> CSVToCqlFloatVector() -> com.datastax.oss.driver.api.core.data.CqlVector<Float>`
+
 ## Combiner
 
 Combiner - a [combinatoric](https://en.wikipedia.org/wiki/Combinatorics) toolkit for NoSQLBench
@@ -204,6 +209,26 @@ Apply the Java String.format method to an incoming object. @see [Java 8 String.f
 - `Object -> Format(String: format) -> String`
   - *example:* `Format('Y')`
   - *Yield the formatted year from a Java date object.*
+
+## FromCSVToBoxedDoubleArray
+
+
+- `String -> FromCSVToBoxedDoubleArray() -> Double[]`
+
+## FromCSVToBoxedFloatArray
+
+
+- `String -> FromCSVToBoxedFloatArray() -> Float[]`
+
+## FromCSVToPrimitiveDoubleArray
+
+
+- `String -> FromCSVToPrimitiveDoubleArray() -> double[]`
+
+## FromCSVToPrimitiveFloatArray
+
+
+- `String -> FromCSVToPrimitiveFloatArray() -> float[]`
 
 ## HTMLEntityDecode
 
